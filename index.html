@@ -37,7 +37,7 @@
 
       if (pauseCounter >= 20) {
         currentlyWorking = true;
-        pauseTimer = 0;
+        pauseCounter = 0;
         document.title = "Screen time";
         timer.classList = [];
       }
@@ -45,7 +45,7 @@
       workCounter += 1;
       timer.innerHTML = counterToTime(workCounter);
 
-      if (workCounter >= 1200) {
+      if (workCounter >= 12) {
         workCounter = 0;
         currentlyWorking = false;
         document.title = "PAUSE";
@@ -56,8 +56,8 @@
   }, 1000);
 
   function counterToTime(counter) {
-    var minutes = Math.floor((1200 - counter) / 60);
-    var seconds = (1200 - counter) % 60;
+    var minutes = Math.floor((12 - counter) / 60);
+    var seconds = (12 - counter) % 60;
 
     return (
       (minutes < 10 ? "0" : "") +
