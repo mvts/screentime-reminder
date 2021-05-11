@@ -1,0 +1,76 @@
+<style>
+  body {
+    background: #222;
+    margin: 0;
+    color: #f1f1f1;
+    display: grid;
+    height: 100%;
+    align-items: center;
+    justify-items: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 50px;
+  }
+
+  .pause {
+    color: #0869f8;
+  }
+</style>
+
+<div id="timer"></div>
+
+<script>
+  // request notification permission
+  if (Notification.permission !== "declined") {
+    Notification.requestPermission();
+  }
+
+  var timer = document.getElementById("timer");
+  var pauseCounter = 0;
+  var workCounter = 0;
+  var currentlyWorking = true;
+  document.title = "Screen time";
+
+  const startTimer = setInterval(() => {
+    if (!currentlyWorking) {
+      pauseCounter += 1;
+      timer.innerHTML = pauseCounter;
+
+      if (pauseCounter >= 20) {
+        currentlyWorking = true;
+        pauseTimer = 0;
+        document.title = "Screen time";
+        timer.classList = [];
+      }
+    } else {
+      workCounter += 1;
+      timer.innerHTML = counterToTime(workCounter);
+
+      if (workCounter >= 1200) {
+        workCounter = 0;
+        currentlyWorking = false;
+        document.title = "PAUSE";
+        timer.classList = ["pause"];
+        notify();
+      }
+    }
+  }, 1000);
+
+  function counterToTime(counter) {
+    var minutes = Math.floor((1200 - counter) / 60);
+    var seconds = (1200 - counter) % 60;
+
+    return (
+      (minutes < 10 ? "0" : null) +
+      minutes +
+      ":" +
+      (seconds < 10 ? "0" : "") +
+      seconds
+    );
+  }
+
+  function notify() {
+    if (Notification.permission === "granted") {
+      var notification = new Notification("Hey, it's time for a pause!");
+    }
+  }
+</script>
